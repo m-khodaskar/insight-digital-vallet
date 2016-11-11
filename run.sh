@@ -9,4 +9,4 @@ javac src/com/paymo/digitalvallet/*.java src/com/paymo/digitalvallet/impl/*.java
 
 jar cf paymo.jar -C src/ .
 
-java -cp paymo.jar com.paymo.digitalvallet.impl.UserTransactionProcessor ./paymo_input/big_batch_payment.txt ./paymo_input/big_stream_payment.txt ./paymo_output/output1.txt ./paymo_output/output2.txt ./paymo_output/output3.txt
+java -cp paymo.jar com.paymo.digitalvallet.impl.UserTransactionProcessor ./paymo_input/batch_payment.txt ./paymo_input/stream_payment.txt ./paymo_output/output1.txt ./paymo_output/output2.txt ./paymo_output/output3.txt

@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.channels.Channels;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.Scanner;
 
@@ -180,7 +181,7 @@ public class UserTransactionProcessor {
 					User u2 = new User(id2);
 					UserTransaction t = new UserTransaction(null, u1, u2,
 							amount);
-					long startTime = System.currentTimeMillis();
+
 					boolean isFirstTransaction = graph
 							.isFirstTransactionForUsers(t);
 					if (isFirstTransaction) {
@@ -208,30 +209,24 @@ public class UserTransactionProcessor {
 						writer3.flush();
 					}
 
-					long endTime = System.currentTimeMillis();
-
-					/*
-					 * System.out.println(" time each = " +
-					 * String.valueOf(endTime - startTime));
-					 */
-					timeToAdd = timeToAdd + (endTime - startTime);
-
 					if (i % 100000 == 0) {
 						System.out.println(" Currently at transaction = " + i);
-						double average = timeToAdd/i;
-						System.out.println(" Average time = " + String.valueOf(average));
 					}
 				}
 
 			}
 			long endTimeAll = System.currentTimeMillis();
 			System.out.println(" Number of streams processed = " + i);
-
+			long timeTaken = endTimeAll - startTimeAll;
+			
 			System.out.println(" Total Time taken = "
-					+ String.valueOf((endTimeAll - startTimeAll)/1000) + " s");
-			double average = (endTimeAll - startTimeAll) / i;
-			System.out.println(" Average Time taken = "
-					+ String.valueOf(average) + " ms");
+					+ String.valueOf(timeTaken) + " ms");
+			float average = timeTaken/i;
+			DecimalFormat df = new DecimalFormat("###.##");
+			
+			System.out.println(" Average Time taken per line = "
+					+ String.valueOf(df.format(average)) + " ms");
+			
 		} catch (IOException e) {
 			throw e;
 

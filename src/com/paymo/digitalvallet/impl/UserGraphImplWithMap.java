@@ -138,13 +138,14 @@ public class UserGraphImplWithMap implements UserGraph {
 	@Override
 	public boolean is4thDegreeFriendsTransaction(UserTransaction t) {
 		//TODO make generic to check for any given degree of friends.
+		//run a counter which increments for every for loop. Check if its value is <= given degree n
 		Set<Integer> visited = new HashSet<Integer>();
 
 		if (map.containsKey(t.getId1())) {
 			// 1st level
 
 			Set<User> friends1 = map.get(t.getId1()).keySet();
-			
+
 			if (friends1.contains(t.getId2()))
 				return true;
 			for (User i1 : friends1) {
@@ -153,60 +154,36 @@ public class UserGraphImplWithMap implements UserGraph {
 					visited.add(i1.getUserId());
 
 					if (map.get(i1).keySet().contains(t.getId2())) {
-
+						
 						return true;
 					} else {
 						// 2nd level
 						Set<User> friends2 = map.get(i1).keySet();
 
-						if (friends2.contains(t.getId2()))
-							return true;
 						for (User i2 : friends2) {
 
 							if (!visited.contains(i2.getUserId())) {
 								visited.add(i2.getUserId());
 
-								if (map.get(i2).keySet().contains(t.getId2()))
+								if (map.get(i2).keySet().contains(t.getId2())) {
+									
 									return true;
+								}
 								else {
 									// 3rd level
 									Set<User> friends3 = map.get(i2).keySet();
-
-									if (friends3.contains(t.getId2()))
-										return true;
+									
 									for (User i3 : friends3) {
 
 										if (!visited.contains(i3.getUserId())) {
 											visited.add(i3.getUserId());
 
 											if (map.get(i3).keySet()
-													.contains(t.getId2()))
+													.contains(t.getId2())) {
+												
 												return true;
-											else {
-												// 4th level
-												Set<User> friends4 = map
-														.get(i3).keySet();
-												if (friends4.contains(t
-														.getId2()))
-													return true;
-
-												for (User i4 : friends4) {
-
-													if (!visited.contains(i4
-															.getUserId())) {
-														visited.add(i4
-																.getUserId());
-
-														if (map.get(i4)
-																.keySet()
-																.contains(
-																		t.getId2())) {
-															return true;
-														}
-													}
-												}
-
 											}
+											
 
 										}
 									}
